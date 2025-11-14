@@ -4,7 +4,7 @@ import argparse
 import tiktoken
 
 from datasets import load_dataset
-from ml_zoo.transformers.gpt2 import GPT2
+from gpt2 import GPT2Model
 
 
 # fmt: off
@@ -71,12 +71,13 @@ def main():
     )
     val_data = torch.tensor(enc.encode(text), dtype=torch.long)
 
-    model = GPT2(
+    model = GPT2Model(
         args.embed_dim,
         args.num_heads,
         vocab_size,
         args.max_position_embeddings,
         args.num_layer,
+        use_cache=False,
     ).to(args.device)
 
     print(sum(p.numel() for p in model.parameters()) / 1e6, "M parameters")
